@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>শুভ বিবাহ</title>
+<link href="https://fonts.googleapis.com/css2?family=Galada&family=Noto+Serif+Bengali:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --maroon:#5a0f12; --deep:#260507; --gold:#c8921b; --gl:#f6dc8f; --ink:#5a1a14; }
+  * { box-sizing:border-box; margin:0; }
+  html,body { height:100%; background:var(--deep); }
+  body { font-family:'Noto Serif Bengali',serif; color:var(--ink); text-align:center; }
+  .hand { font-family:'Galada','Noto Serif Bengali',cursive; }
+  .gold { background:linear-gradient(90deg,#a87512,#fbe7a1,#b8841a,#fbe7a1,#a87512); background-size:250% 100%;
+          -webkit-background-clip:text; background-clip:text; color:transparent; animation:shine 5s linear infinite; }
+  @keyframes shine { to { background-position:-250% 0; } }
+
+  .stage { position:relative; height:100dvh; max-width:440px; margin:auto; overflow:hidden;
+           background:radial-gradient(circle at 50% 30%,#7d1a1c,var(--deep) 75%); }
+  .paper { position:absolute; inset:12px; background:linear-gradient(#fffaf0,#f6e9cc); border:1.5px solid var(--gold);
+           box-shadow:0 0 40px rgba(0,0,0,.5); overflow:hidden; }
+  .paper::after { content:""; position:absolute; inset:6px; border:1px solid rgba(200,146,27,.55); pointer-events:none; z-index:5; }
+  .cn { position:absolute; width:46px; height:46px; z-index:6; stroke:var(--gold); fill:none; stroke-width:1.6; }
+  .cn.tl { top:2px; left:2px; } .cn.tr { top:2px; right:2px; transform:scaleX(-1); }
+  .cn.bl { bottom:2px; left:2px; transform:scaleY(-1); } .cn.br { bottom:2px; right:2px; transform:scale(-1); }
+
+  .sc { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+        padding:44px 26px; gap:10px; opacity:0; transition:opacity 1.1s; pointer-events:none; }
+  .sc.on { opacity:1; pointer-events:auto; }
+  .a { opacity:0; }
+  .on .a { animation:rise 1.3s cubic-bezier(.2,.7,.2,1) forwards; animation-delay:var(--d,0s); }
+  @keyframes rise { from { opacity:0; filter:blur(8px); transform:translateY(16px); } to { opacity:1; filter:none; transform:none; } }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  .mandala { position:absolute; width:480px; height:480px; top:50%; left:50%; margin:-240px 0 0 -240px; opacity:.16;
+             animation:spin 70s linear infinite; }
+
+  .sm { font-size:13px; letter-spacing:3px; color:var(--gold); }
+  .t1 { font-size:46px; line-height:1.15; }
+  .nm { font-size:32px; line-height:1.2; }
+  .dt { font-size:17px; font-weight:600; color:var(--gold); }
+  .arch { width:190px; height:238px; padding:4px; border-radius:95px 95px 6px 6px; margin:6px 0;
+          background:linear-gradient(135deg,#a87512,#fbe7a1,#a87512); }
+  .arch > * { width:100%; height:100%; border-radius:91px 91px 3px 3px; object-fit:cover; display:flex;
+              align-items:center; justify-content:center; background:#7d1a1c; color:var(--gl); font-size:46px; }
+  .dv { display:flex; align-items:center; gap:10px; width:70%; color:var(--gold); }
+  .dv i { flex:1; height:1px; background:linear-gradient(90deg,transparent,var(--gold),transparent); }
+  p { font-size:15.5px; line-height:1.9; }
+  .card { width:100%; border:1px solid rgba(200,146,27,.6); border-radius:14px; padding:12px 14px; background:rgba(255,255,255,.5); }
+  .card b { color:var(--maroon); }
+  .row { display:flex; gap:10px; width:100%; } .row .card { flex:1; font-size:14px; line-height:1.7; }
+  .h { font-size:24px; color:var(--maroon); }
+  #cd { display:flex; gap:8px; justify-content:center; }
+  #cd div { width:64px; padding:8px 0; border-radius:10px; color:var(--gl); background:linear-gradient(var(--maroon),#7d1a1c);
+            border:1px solid var(--gold); } #cd b { display:block; font-size:24px; } #cd span { font-size:11px; }
+  .btn { display:inline-block; margin:4px; background:linear-gradient(var(--maroon),#7d1a1c); color:var(--gl); padding:9px 22px;
+         border-radius:24px; text-decoration:none; font:600 14px 'Noto Serif Bengali',serif; border:1px solid var(--gold); cursor:pointer; }
+
+  /* শুরুর লাল খাম */
+  #start { position:absolute; inset:0; z-index:60; cursor:pointer; display:flex; align-items:center; justify-content:center;
+           background:radial-gradient(circle at 50% 40%,#7d1a1c,#2a0608 78%); }
+  #start.open { pointer-events:none; } #start.fade { opacity:0; transition:opacity 1.3s; }
+  .env { --w:min(82vw,330px); position:relative; width:var(--w); height:calc(var(--w)*.68); perspective:1100px;
+         animation:flt 3.2s ease-in-out infinite alternate; }
+  @keyframes flt { to { transform:translateY(-7px); } }
+  #start.open .env { animation:none; }
+  .eback { position:absolute; inset:0; background:#6e1316; border-radius:6px; box-shadow:0 26px 40px rgba(0,0,0,.55); }
+  .efront { position:absolute; inset:0; z-index:3; border-radius:6px; background:linear-gradient(160deg,#d63a35,#a5201f 70%);
+            clip-path:polygon(0 0,50% 54%,100% 0,100% 100%,0 100%); }
+  .efront::before { content:""; position:absolute; inset:0; background:linear-gradient(90deg,rgba(0,0,0,.18),transparent 50%,rgba(255,255,255,.12)); }
+  .eflap { position:absolute; left:0; top:0; width:100%; height:56%; z-index:4; transform-origin:50% 0;
+           background:linear-gradient(#e2453f,#b3262a); clip-path:polygon(0 0,100% 0,50% 100%); }
+  @keyframes flapOpen { 0% { transform:rotateX(0); z-index:4; } 49% { z-index:4; } 50% { z-index:1; } 100% { transform:rotateX(180deg); z-index:1; } }
+  #start.open .eflap { animation:flapOpen .9s .45s ease-in-out forwards; }
+  .seal { position:absolute; left:50%; top:54%; width:50px; height:50px; margin:-25px 0 0 -25px; z-index:6; border-radius:50%;
+          background:radial-gradient(circle at 35% 30%,#fff2b0,#d9a21e 60%,#9a6a0e); display:flex; align-items:center; justify-content:center;
+          color:#7a1a12; font-size:24px; box-shadow:0 3px 8px rgba(0,0,0,.5); animation:pulse 1.6s ease-in-out infinite alternate; }
+  @keyframes pulse { to { transform:scale(1.1); } }
+  #start.open .seal { animation:none; opacity:0; transform:scale(1.8); transition:all .45s; }
+  .ecard { position:absolute; left:6%; top:5%; width:88%; height:94%; z-index:2; background:linear-gradient(#fffaf0,#f6e9cc);
+           border:2px solid var(--gold); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
+           text-align:center; color:var(--maroon); box-shadow:inset 0 0 0 5px #fffaf0,inset 0 0 0 6px rgba(200,146,27,.6);
+           transition:transform 1.2s cubic-bezier(.3,.7,.2,1); }
+  #start.open .ecard { transform:translateY(-64%); transition-delay:1.35s; }
+  #start.zoom .ecard { z-index:20; transform:translateY(-50%) scale(1.4); transition:transform 1.5s ease-in-out; transition-delay:0s; }
+  #start.zoom .eback, #start.zoom .efront, #start.zoom .eflap { opacity:0; transition:opacity 1s; }
+  .eh { position:absolute; left:0; right:0; top:calc(100% + 34px); text-align:center; color:var(--gl); font-size:15px; letter-spacing:1px;
+        animation:blink 1.6s ease-in-out infinite alternate; }
+  @keyframes blink { from { opacity:.4; } to { opacity:1; } }
+  #start.open .eh { opacity:0; animation:none; transition:opacity .3s; }
+  canvas { position:absolute; inset:0; width:100%; height:100%; z-index:40; pointer-events:none; }
+
+  /* ===== কভার দৃশ্য (পর্দা, মালা, লণ্ঠন, কলাপাতা) ===== */
+  .cover { padding:0; display:block; overflow:hidden; z-index:20; background:radial-gradient(#fffefa,#f6ead2 72%); }
+  .cover svg { position:absolute; left:0; width:100%; height:auto; display:block; }
+  .cvTop { top:0; z-index:3; -webkit-mask-image:linear-gradient(#000 78%,transparent); mask-image:linear-gradient(#000 78%,transparent); } .cvBot { bottom:0; z-index:1; }
+  .cover .e { opacity:0; }
+  .cover.on .e { animation:var(--k) 1.5s cubic-bezier(.2,.7,.2,1) var(--d,0s) forwards; }
+  .cover .sw  { transform-box:fill-box; transform-origin:50% 0; }
+  .cover .sw2 { transform-box:fill-box; transform-origin:0 100%; }
+  .cover.on .sw  { animation:swing 3.4s ease-in-out var(--d2,3s) infinite alternate; }
+  .cover.on .sw2 { animation:swing2 4.2s ease-in-out var(--d2,3s) infinite alternate; }
+  .cover.on .fl  { animation:glow 1.8s ease-in-out infinite alternate; }
+  @keyframes inL   { from { opacity:0; transform:translateX(-110%); } to { opacity:1; transform:none; } }
+  @keyframes inR   { from { opacity:0; transform:translateX(110%); }  to { opacity:1; transform:none; } }
+  @keyframes dropIn{ from { opacity:0; transform:translateY(-140px); } to { opacity:1; transform:none; } }
+  @keyframes riseIn{ from { opacity:0; transform:translateY(140px); }  to { opacity:1; transform:none; } }
+  @keyframes fadeIn{ from { opacity:0; transform:scale(.94); } to { opacity:1; transform:none; } }
+  @keyframes wipe  { from { opacity:1; clip-path:inset(-15% 100% -15% -5%); } to { opacity:1; clip-path:inset(-15% -8% -15% -5%); } }
+  @keyframes swing { from { transform:rotate(-4deg); } to { transform:rotate(4deg); } }
+  @keyframes swing2{ from { transform:rotate(-3.6deg); } to { transform:rotate(3.6deg); } }
+  @keyframes zoomIn{ from { opacity:0; transform:scale(1.12); } to { opacity:1; transform:none; } }
+  @keyframes glow  { from { opacity:.75; } to { opacity:1; } }
+  @keyframes fall  { 0% { opacity:0; transform:translate(0,-20px) rotate(0); } 10% { opacity:.9; }
+                     100% { opacity:0; transform:translate(var(--x),108vh) rotate(560deg); } }
+  .cvTitle { position:absolute; top:21%; left:0; right:0; z-index:4; color:#c4560f; font-size:50px; line-height:1.02;
+             text-shadow:0 0 14px #fff8e8,0 2px 0 rgba(255,255,255,.6); }
+  .cvTitle span { display:block; width:fit-content; margin:0 auto; }
+  .cvNm { position:absolute; top:calc(21% + 176px); left:0; right:0; z-index:4; font-size:25px; color:#a8620f; }
+  .cvDt { position:absolute; top:calc(21% + 216px); left:0; right:0; z-index:4; font-size:15px; font-weight:600; color:#b7791a; letter-spacing:.5px; }
+  .cvPh { position:absolute; bottom:0; left:50%; margin-left:-125px; width:250px; height:310px; z-index:2; padding:4px 4px 0;
+          border-radius:125px 125px 0 0; background:linear-gradient(135deg,#a87512,#fbe7a1,#a87512); }
+  .cvPh > * { width:100%; height:100%; border-radius:121px 121px 0 0; object-fit:cover; display:flex; align-items:center;
+              justify-content:center; background:linear-gradient(#fdeee6,#f2c7bd); color:var(--maroon); font-size:54px; }
+  .pt { position:absolute; top:-20px; width:10px; height:14px; border-radius:50% 0 50% 0; opacity:0; z-index:5; }
+  .cover.on .pt { animation:fall var(--t) linear var(--dl) infinite; }
+
+  .cvMd { position:absolute; bottom:15%; left:50%; width:190px; height:190px; margin-left:-95px; z-index:2; }
+  .mdl { position:absolute; inset:0; width:100%; height:100%; stroke:#c8921b; stroke-width:1.3; animation:spin 60s linear infinite; }
+  .cvMt { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:38px; line-height:1.1; }
+  .cpImg { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 100%; }
+  .cpNm { position:absolute; top:19%; left:0; right:0; z-index:4; color:#c4161c; font-size:min(44px,5.2vh); line-height:1.1;
+          text-shadow:0 0 12px #fff,0 0 4px #fff,0 2px 5px rgba(120,0,0,.25); }
+  .cpNm span { display:block; width:fit-content; margin:0 auto; } .cpNm .sm2 { font-size:.55em; }
+  .cpDt { position:absolute; top:calc(19% + min(124px,15.5vh)); left:0; right:0; z-index:4; color:#b3261e; font-weight:600; font-size:15px;
+          text-shadow:0 0 8px #fff,0 0 3px #fff; }
+
+  /* ===== দ্বিতীয় দৃশ্য: নাম লেখা দম্পতির ছবি ===== */
+  .cpImg { opacity:0; object-position:50% 30%; }
+  .cover.on .cpImg { animation:bloom 2.4s cubic-bezier(.2,.7,.2,1) forwards, drift 14s ease-in-out 2.4s infinite alternate; }
+  @keyframes bloom { from { opacity:1; clip-path:circle(0% at 50% 38%); transform:scale(1.14); }
+                     to   { opacity:1; clip-path:circle(100% at 50% 38%); transform:scale(1); } }
+  @keyframes drift { from { transform:scale(1); } to { transform:scale(1.06) translateY(-1.2%); } }
+  .cpShine { position:absolute; left:0; right:0; top:14%; height:27%; z-index:3; overflow:hidden; pointer-events:none;
+             -webkit-mask-image:linear-gradient(transparent,#000 22%,#000 78%,transparent); mask-image:linear-gradient(transparent,#000 22%,#000 78%,transparent); }
+  .cpShine::after { content:""; position:absolute; top:0; bottom:0; width:40%; left:-60%; opacity:0; mix-blend-mode:soft-light;
+                    background:linear-gradient(105deg,transparent,#fff,transparent); }
+  .cover.on .cpShine::after { animation:sweep 4.6s ease-in-out 3.2s infinite; }
+  @keyframes sweep { 0% { left:-60%; opacity:0; } 12% { opacity:1; } 55% { left:115%; opacity:1; } 60% { opacity:0; } 100% { left:115%; opacity:0; } }
+  .stx { position:absolute; z-index:4; color:#fff3b0; font-style:normal; font-size:16px; opacity:0; pointer-events:none;
+         text-shadow:0 0 8px #ffd34d,0 0 14px #ffb300; }
+  .cover.on .stx { animation:twk 2.4s ease-in-out var(--dl) infinite; }
+  @keyframes twk { 0%,100% { opacity:0; transform:scale(.3) rotate(0); } 50% { opacity:1; transform:scale(1.3) rotate(45deg); } }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><symbol id="cn" viewBox="0 0 46 46"><path d="M3 3H30M3 3V30M9 9H22M9 9V22M15 15Q27 15 27 27"/><circle cx="31" cy="31" r="2.5"/></symbol></svg>
+<div class="stage" id="stage"><div class="paper" id="paper"></div><canvas id="cv"></canvas>
+  <div id="start"><div class="env" id="env"><div class="eback"></div><div class="ecard" id="ecard"></div>
+    <div class="efront"></div><div class="eflap"></div><div class="seal">❀</div><div class="eh">✦ খুলতে ট্যাপ করুন ✦</div></div></div></div>
+<audio id="bgm" src="music.mp3" loop></audio>
+
+<script>
+/* ===== শুধু এই অংশের তথ্য বদলালেই নতুন কার্ড হয়ে যাবে ===== */
+const D = {
+  title: "আমাদের মেয়ের বিয়ে",
+  weddingDate: "2027-01-29T19:00:00+05:30",
+  dateText: "২৯শে জানুয়ারি ২০২৭", weekday: "শুক্রবার",
+  photo: "couple.jpg",                 // দম্পতির ছবি এই নামে একই ফোল্ডারে রাখুন
+  bride: { first:"সুস্মিতা", name:"সুস্মিতা চক্রবর্তী", father:"", mother:"", home:"" },
+  groom: { first:"শ্রীকান্ত", name:"শ্রীকান্ত চক্রবর্তী", father:"", mother:"", home:"" },
+  parents: { father:"সমীর চক্রবর্তী", mother:"তৃপ্তিলতা চক্রবর্তী", side:"bride" },  // side: "bride" বা "groom"
+  asirbad: "সন্ধ্যা ৬:০০টা", biye: "সন্ধ্যা ৭:০০টা",
+  venue: "বাজেমেলিয়া, বালাজি লজ", address: "উত্তর বাজেমেলিয়া, সিঙ্গুর, হুগলি",
+  mapQuery: "Balaji Lodge Bajemelia Singur Hooghly", phone: ""
+};
+/* ============================================================ */
+D[D.parents.side].father = D.parents.father; D[D.parents.side].mother = D.parents.mother;
+const inviter = D.parents.father + ' ও ' + D.parents.mother;
+const $ = s => document.querySelector(s);
+const a = d => `class="a" style="--d:${d}s"`;
+const dv = d => `<div class="dv a" style="--d:${d}s"><i></i>❖<i></i></div>`;
+const line = (k, v) => v ? `<div>${k}: ${v}</div>` : '';
+const fam = (t, x) => `<div class="card"><b>${t}</b><div>${x.name}</div>${line('পিতা', x.father)}${line('মাতা', x.mother)}${line('নিবাস', x.home)}</div>`;
+const mandala = `<svg class="mandala" viewBox="-100 -100 200 200" fill="none" stroke="#c8921b" stroke-width=".7">${
+  [...Array(16)].map((_, i) => `<ellipse rx="9" ry="46" cy="-46" transform="rotate(${i*22.5})"/>`).join('')}${
+  [...Array(16)].map((_, i) => `<ellipse rx="5" ry="24" cy="-70" transform="rotate(${i*22.5+11})"/>`).join('')
+  }<circle r="22"/><circle r="94"/></svg>`;
+const maps = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(D.mapQuery);
+const mono = D.bride.first[0] + ' ও ' + D.groom.first[0];
+
+function buildCover() {
+  let s = 11; const rnd = () => (s = s * 16807 % 2147483647) / 2147483647;
+  const pal = ['#f48fb1','#f7a8c4','#ffb23e','#ffd23f','#ffffff','#ff8a50','#f9c7d6'];
+  const fl = (x, y, r) => { const c = pal[rnd() * pal.length | 0];
+    return `<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${rnd() * 72 | 0})">` +
+      [0,1,2,3,4].map(i => `<circle cy="${(-r*.62).toFixed(1)}" r="${(r*.55).toFixed(1)}" fill="${c}" transform="rotate(${i*72})"/>`).join('') +
+      `<circle r="${(r*.3).toFixed(1)}" fill="${c === '#ffffff' ? '#ffc933' : '#ffe27a'}"/></g>`; };
+  let gar = '';
+  for (let x = 0; x <= 366; x += 12) { const b = 52 + 34 * Math.abs(Math.sin(Math.PI * x / 180));
+    gar += `<ellipse cx="${x}" cy="${(b-8).toFixed(1)}" rx="11" ry="4.5" fill="#4f9a2b" transform="rotate(${(rnd()*80-40)|0} ${x} ${(b-8).toFixed(1)})"/>`;
+    [-30, -13, 6].forEach(o => gar += fl(x + rnd()*8 - 4, b + o + rnd()*6, 8 + rnd()*6)); }
+  const lan = [[92,98,2.7,0],[30,168,3,.6],[268,98,2.85,.3],[330,168,3.15,.9]].map(l =>
+    `<g transform="translate(${l[0]} ${l[1]})"><g class="e" style="--k:dropIn;--d:${l[2]}s"><g class="sw" style="--d2:${l[2]+1.5+l[3]}s"><use href="#lan"/></g></g></g>`).join('');
+  const leafG = () => [[-10,.9,0],[-30,.85,.3],[-52,.78,.6],[-72,.7,.9],[-90,.6,1.2]].map((v, i) =>
+    `<g class="e" style="--k:riseIn;--d:${(3.2+v[2]).toFixed(1)}s"><g class="sw2" style="--d2:${(4+i*.45).toFixed(2)}s"><use href="#lf" transform="translate(-14 292) rotate(${v[0]}) scale(${v[1]})"/></g></g>`).join('');
+  const pt = [...Array(14)].map(() => `<i class="pt" style="left:${rnd()*96|0}%;--x:${(rnd()*80-40)|0}px;--t:${(7+rnd()*5).toFixed(1)}s;--dl:${(3+rnd()*8).toFixed(1)}s;background:${pal[rnd()*3|0]}"></i>`).join('');
+  return `
+  <svg class="cvBot" viewBox="0 0 360 300"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#4e9a2a"/><stop offset="1" stop-color="#9ccf3f"/></linearGradient>
+    <g id="lf"><path d="M0 0C25-58 105-88 168-56C122-22 50-4 0 0Z" fill="url(#lg)"/><path d="M0 0C50-32 112-50 162-55" stroke="#3b7a1b" stroke-width="2" fill="none"/></g></defs>
+    ${leafG()}<g transform="translate(360 0) scale(-1 1)">${leafG()}</g></svg>
+  <div class="cvMd e" style="--k:fadeIn;--d:4.2s">${mandala.replace('class="mandala"', 'class="mdl"')}<div class="hand cvMt" style="color:#b3261e">শুভ<br>বিবাহ</div></div>
+  <svg class="cvTop" viewBox="0 0 360 500"><defs>
+    <linearGradient id="rd" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#a81f17"/><stop offset=".28" stop-color="#e2482b"/><stop offset=".55" stop-color="#c4301f"/><stop offset=".8" stop-color="#e5502e"/><stop offset="1" stop-color="#b0241a"/></linearGradient>
+    <linearGradient id="vl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d93f27"/><stop offset="1" stop-color="#a51f17"/></linearGradient>
+    <radialGradient id="gw"><stop offset="0" stop-color="#fff7bf"/><stop offset="1" stop-color="#ffb42a"/></radialGradient>
+    <g id="cL"><path d="M0 0H150C135 90 95 150 80 240C66 330 58 410 30 500H0Z" fill="url(#rd)"/>
+      <path d="M28 0C42 120 30 260 12 500M62 0C78 130 60 270 34 500M100 0C108 120 80 250 52 480" stroke="rgba(0,0,0,.18)" stroke-width="3" fill="none"/>
+      <path d="M45 0C60 120 46 260 22 500M82 0C96 130 70 260 44 490" stroke="rgba(255,255,255,.13)" stroke-width="3" fill="none"/>
+      <g transform="translate(68 262)"><circle r="6" fill="#ebb62b"/><path d="M-5 5H5L7 30H-7Z" fill="#d9a21e"/><path d="M-6 30V42M-2 30V44M2 30V44M6 30V42" stroke="#c9891a" stroke-width="1.6"/></g></g>
+    <g id="lan"><line y1="-34" y2="-4" stroke="#d9a21e" stroke-width="1.2"/><path d="M-5-4H5L7 0H-7Z" fill="#c9891a"/>
+      <path class="fl" d="M-9 0H9L12 16L9 34H-9L-12 16Z" fill="url(#gw)" stroke="#d9a21e" stroke-width="2"/>
+      <path d="M-4 0V34M4 0V34" stroke="#d9a21e" stroke-width="1" opacity=".6"/><path d="M-9 34H9L5 40H-5Z" fill="#c9891a"/><path d="M0 40V50" stroke="#d9a21e"/><circle cy="52" r="2.4" fill="#d9a21e"/></g></defs>
+    <g class="e" style="--k:inL;--d:.9s"><use href="#cL"/></g>
+    <g class="e" style="--k:inR;--d:.9s"><g transform="translate(360 0) scale(-1 1)"><use href="#cL"/></g></g>
+    <g class="e" style="--k:dropIn;--d:1.8s"><path d="M0 0H360V48C300 100 240 92 180 56C120 92 60 100 0 48Z" fill="url(#vl)"/>
+      <path d="M0 48C60 100 120 92 180 56C240 92 300 100 360 48" stroke="#f3c34a" stroke-width="2.6" stroke-dasharray="1 6" stroke-linecap="round" fill="none"/></g>
+    ${lan}<g class="e" style="--k:dropIn;--d:2.2s">${gar}</g></svg>
+  <div class="cvTitle hand">${D.title.split(' ').map((w, i) => `<span class="e" style="--k:wipe;--d:${(.3 + i * .9).toFixed(1)}s">${w}</span>`).join('')}</div>
+  <div class="cvNm hand e" style="--k:fadeIn;--d:5s">${D.bride.first} ও ${D.groom.first}</div>
+  <div class="cvDt e" style="--k:fadeIn;--d:5.7s">✦ ${D.dateText} ✦</div>`;
+}
+function buildCouple() {
+  const st = [[24,26,3.2],[76,26,3.9],[50,13,4.4],[30,41,4.8],[70,41,3.5],[14,60,5.2],[86,60,4.1]]
+    .map(s => `<i class="stx" style="left:${s[0]}%;top:${s[1]}%;--dl:${s[2]}s">✦</i>`).join('');
+  return `<img class="cpImg" src="${D.photo}" alt="" onerror="this.remove()"><div class="cpShine"></div>${st}`;
+}
+const scenes = [
+ buildCover(),
+
+ buildCouple(),
+
+ `<div class="h hand a" style="--d:.2s">সবিনয় নিবেদন</div>${dv(.6)}
+  <p class="a" style="--d:1s">প্রজাপতি ঋষির নির্দেশে ও সকলের আশীর্বাদে আমাদের স্নেহের কন্যা <b>${D.bride.name}</b>-এর সহিত <b>${D.groom.name}</b>-এর শুভ পরিণয় আগামী <b>${D.dateText}</b>, ${D.weekday} অনুষ্ঠিত হইবে।</p>
+  <p class="a" style="--d:2.4s">তদুপলক্ষে আপনি সপরিবারে উপস্থিত থাকিয়া বর-কনেকে আশীর্বাদ করিলে আমরা অত্যন্ত আনন্দিত হইব।</p>
+  <div class="row a" style="--d:3.6s">${fam('কন্যা পক্ষ', D.bride)}${fam('পাত্র পক্ষ', D.groom)}</div>`,
+
+ `<div class="h hand a" style="--d:.2s">অনুষ্ঠানসূচি</div>${dv(.6)}
+  <div class="card a" style="--d:1.1s"><div class="sm">আশীর্বাদ</div><div class="hand h">${D.asirbad}</div><div>${D.dateText}</div></div>
+  <div class="card a" style="--d:2.1s"><div class="sm">শুভ বিবাহ</div><div class="hand h">${D.biye}</div><div>${D.dateText}</div></div>
+  <div class="card a" style="--d:3.1s"><div class="sm">স্থান</div><div class="hand h">${D.venue}</div><p>${D.address}</p>${D.phone ? `<div>যোগাযোগ: ${D.phone}</div>` : ''}</div>`,
+
+ `<div class="sm a" style="--d:.2s">আর মাত্র</div><div id="cd" class="a" style="--d:.6s"></div>${dv(1.2)}
+  <p class="a" style="--d:1.6s">আপনার শুভাগমন একান্ত প্রার্থনীয়</p>
+  <div class="sm a" style="--d:2.4s">বিনীত নিবেদক</div>
+  <div class="hand h gold a" style="--d:2.8s;font-size:26px">${inviter}</div>
+  <div class="a" style="--d:3.6s"><a class="btn" target="_blank" href="${maps}">📍 মানচিত্র</a><button class="btn" id="again">↻ আবার দেখুন</button></div>`
+];
+const times = [11000, 11500, 11000, 9500];
+
+$('#ecard').innerHTML = `<div class="sm">শ্রী শ্রী প্রজাপতয়ে নমঃ</div><div class="hand" style="font-size:36px;line-height:1.1;color:#b3261e">শুভ বিবাহ</div>
+  <div style="color:var(--gold)">❖</div><div style="font-size:13px">আপনাকে সাদর নিমন্ত্রণ</div>
+  <div class="hand" style="font-size:21px;color:#a8620f;margin-top:4px">${D.bride.first} ও ${D.groom.first}</div>`;
+$('#paper').innerHTML = ['tl','tr','bl','br'].map(c => `<svg class="cn ${c}"><use href="#cn"/></svg>`).join('') +
+  scenes.map((h, i) => i > 1 ? `<div class="sc" id="sc${i}">${h}</div>` : '').join('');
+$('#paper').insertAdjacentHTML('afterend', [0, 1].map(i => `<div class="sc cover" id="sc${i}">${scenes[i]}</div>`).join(''));
+const els = scenes.map((_, i) => $('#sc' + i));
+
+let cur = 0, timer;
+function show(i) {
+  cur = i; els[i].classList.add('on');
+  els.forEach((e, j) => j !== i && e.classList.remove('on'));
+  clearTimeout(timer);
+  if (i < els.length - 1) timer = setTimeout(() => show(i + 1), times[i]);
+}
+function play() { els.forEach(e => e.classList.remove('on')); setTimeout(() => show(0), 80); }
+
+let started = false;
+$('#start').onclick = () => {
+  if (started) return; started = true; const s = $('#start');
+  s.classList.add('open'); $('#bgm').play().catch(() => {});
+  setTimeout(() => s.classList.add('zoom'), 2700);          /* কার্ড বড় হয়ে সামনে আসে */
+  setTimeout(() => { s.classList.add('fade'); play(); }, 4800);
+  setTimeout(() => s.remove(), 6400);
+};
+$('#stage').addEventListener('click', e => {
+  if (e.target.id === 'again') return play();
+  if (e.target.closest('a,#start') || cur >= els.length - 1 || !$('#sc0').classList.contains('on') && cur === 0 && $('#start')) return;
+  show(cur + 1);
+});
+
+/* কাউন্টডাউন */
+const bn = n => n.toLocaleString('bn-BD');
+setInterval(() => {
+  const s = Math.max(0, Math.floor((new Date(D.weddingDate) - Date.now()) / 1000)), c = $('#cd');
+  if (!c) return;
+  c.innerHTML = [[s/86400|0,'দিন'],[s%86400/3600|0,'ঘণ্টা'],[s%3600/60|0,'মিনিট'],[s%60,'সেকেন্ড']].map(x => `<div><b>${bn(x[0])}</b><span>${x[1]}</span></div>`).join('');
+}, 1000);
+
+/* গোলাপি ফুল ও পাঁপড়ি ঝরা + সোনালি ঝিকিমিকি */
+const cv = $('#cv'), cx = cv.getContext('2d'), R = Math.random;
+function fit() { cv.width = cv.offsetWidth; cv.height = cv.offsetHeight; } fit(); addEventListener('resize', fit);
+const PK = ['#f48fb1','#f8bbd0','#ec6f9c','#ffc1d6','#f06292'];
+const mk = init => ({ x:R(), y:init ? R() : -.05, kind:R() < .32 ? 1 : 0, r:4 + R()*5, v:.0014 + R()*.0016, sw:.0008 + R()*.001,
+  ph:R()*6.3, dr:.03 + R()*.05, rot:R()*6.3, sp:(R() - .5)*.05, fl:R()*6.3, c:PK[R()*PK.length|0] });
+const Q = [...Array(48)].map(() => mk(true));
+const G = [...Array(26)].map(() => ({ x:R(), y:R(), r:R()*2 + .6, v:R()*.0005 + .0002, p:R()*6 }));
+(function loop(t) {
+  const W = cv.width, H = cv.height; cx.clearRect(0, 0, W, H);
+  G.forEach(q => { q.y -= q.v; if (q.y < 0) q.y = 1;
+    cx.fillStyle = `rgba(246,220,143,${.25 + .35 * Math.sin(t / 600 + q.p)})`;
+    cx.beginPath(); cx.arc(q.x * W, q.y * H, q.r, 0, 6.3); cx.fill(); });
+  Q.forEach(q => {
+    q.y += q.v; q.rot += q.sp; q.fl += .05; if (q.y > 1.05) Object.assign(q, mk(false));
+    cx.save(); cx.translate((q.x + Math.sin(t * q.sw + q.ph) * q.dr) * W, q.y * H); cx.rotate(q.rot);
+    cx.globalAlpha = .93; cx.fillStyle = q.c; const r = q.r;
+    if (q.kind === 0) { cx.scale(1, .55 + .45 * Math.abs(Math.sin(q.fl))); cx.beginPath(); cx.moveTo(0, -r);
+      cx.bezierCurveTo(r*.95, -r*.5, r*.7, r*.8, 0, r); cx.bezierCurveTo(-r*.7, r*.8, -r*.95, -r*.5, 0, -r); cx.fill(); }
+    else { for (let i = 0; i < 5; i++) { cx.rotate(1.2566); cx.beginPath(); cx.arc(0, -r*.55, r*.5, 0, 6.3); cx.fill(); }
+      cx.fillStyle = '#ffe27a'; cx.beginPath(); cx.arc(0, 0, r*.28, 0, 6.3); cx.fill(); }
+    cx.restore(); });
+  requestAnimationFrame(loop);
+})(0);
+</script>
+</body>
+</html>
